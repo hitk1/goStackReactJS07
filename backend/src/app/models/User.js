@@ -21,6 +21,11 @@ class User extends Model {
     return this;
   }
 
+  // Função estática que faz o relacionamento das tabelas
+  static associate(models) {
+    this.belongsTo(models.File, { foreignKey: 'avatar_id', as: 'avatar' });
+  }
+
   checkPassword(password) {
     return bcrypt.compare(password, this.password_hash);
   }

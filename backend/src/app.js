@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 import routes from './routes';
 
 import './database';
@@ -12,6 +13,11 @@ class App {
 
   middlewares() {
     this.server.use(express.json());
+    /*
+    [express.static()] é um método GET que serve arquivos estáticos do servidor
+    Neste caso, servirá para prover as imagens de cada avatar
+    */
+    this.server.use('/files', express.static(path.resolve(__dirname, '..', 'temp', 'uploads')));
   }
 
   routes() {
