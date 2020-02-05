@@ -1,4 +1,4 @@
-import { parseISO, startOfDay } from 'date-fns';
+import { parseISO, getDate } from 'date-fns';
 
 import Appointment from '../models/Appointment';
 import User from '../models/User';
@@ -17,7 +17,7 @@ class ScheduleController {
 
     const appointments = await Appointment.findAll({
       where: {
-        date: startOfDay(parseISO(date)),
+        date: getDate(parseISO(date)),
         canceled_at: null,
         provider_id: req.userId,
       },
