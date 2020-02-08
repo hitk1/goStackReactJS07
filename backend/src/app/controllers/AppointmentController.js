@@ -1,6 +1,7 @@
 import {
   startOfHour, parseISO, isBefore, format, subHours,
 } from 'date-fns';
+import pt from 'date-fns/locale/pt';
 import * as Yup from 'yup';
 
 import User from '../models/User';
@@ -18,7 +19,7 @@ class AppointmentController {
     const appointments = await Appointment.findAll({
       where: { user_id: req.userId, canceled_at: null },
       order: ['date'],
-      attributes: ['id', 'date'],
+      attributes: ['id', 'date', 'past'],
       limit: 20,
       offset: (page - 1) * 20,
       include: [
@@ -86,7 +87,7 @@ class AppointmentController {
     });
 
     const user = await User.findByPk(req.userId);
-    const formattedDate = format(hourStart, "'dia' dd 'de' MMMM 'às' hh':'mm");
+    const formattedDate = format(hourStart, "'dia' dd 'de' MMMM 'às' hh':'mm", { locale: pt });
 
     // Notifica o provedor de serviços
     await Notification.create({
